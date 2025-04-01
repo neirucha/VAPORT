@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      overflow-x: hidden;
+      perspective: 2px;
+    }
+
+    .parallax-wrapper {
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .background-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.pexels.com/photos/19228676/pexels-photo-19228676/free-photo-of-fog-over-skyscrapers-with-illuminated-windows.jpeg') no-repeat center center;
+      background-size: cover;
+      transform: translateZ(-1px) scale(1.5);
+      z-index: -1;
+    }
+
+    #profile {
+      text-align: center;
+      padding: 50px 20px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      margin: 20px auto;
+      max-width: 800px;
+      transform: translateZ(0px);
+      position: relative;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    #profile img {
+      width: 100px;
+      border-radius: 50%;
+      border: 3px solid white;
+      animation: rotateIn 1s ease-out;
+    }
+
+    nav {
+      text-align: center;
+      margin: 20px auto;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      max-width: 800px;
+      transform: translateZ(0px);
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 20px;
+      cursor: pointer;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      background: #555;
+    }
+
+    .panel {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      margin: 20px auto;
+      max-width: 1000px;
+      transform: translateZ(0px);
+      position: relative;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .art-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .art-gallery img {
+      width: 200px;
+      height: auto;
+      object-fit: contain;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .art-gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    .art-gallery img.expanded {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(2);
+      z-index: 1000;
+      max-width: 80%;
+      max-height: 80vh;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .voice-samples {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .voice-sample {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 5px;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    audio {
+      width: 100%;
+    }
+
+    #social-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #social-links img {
+      width: 30px;
+      transition: transform 0.3s;
+    }
+
+    #social-links img:hover {
+      transform: rotate(360deg);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes rotateIn {
+      from {
+        transform: rotate(0deg) scale(0);
+      }
+
+      to {
+        transform: rotate(360deg) scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="parallax-wrapper">
+    <div class="background-layer"></div>
+    <div id="profile">
+      <img src="https://lh3.googleusercontent.com/a/ACg8ocKl4nXL8TQ_q0OLyvc2YYO3G55SYWFAPsXpsfgL6Q5L52_gutkR=s436-c-no" alt="Profile Picture">
+      <h1>neirucha</h1>
+      <p>Available for hire!</p>
+      <div id="social-links">
+        <img src="https://static.vecteezy.com/system/resources/previews/018/930/604/non_2x/discord-logo-discord-icon-transparent-free-png.png" alt="Discord">
+        <span>@neirucha</span>
+      </div>
+    </div>
+
+    <nav>
+      <button onclick="showPanel('art')">Artworks</button>
+      <button onclick="showPanel('voice')">Voicework</button>
+    </nav>
+
+    <div id="panels">
+      <div id="art" class="panel">
+        <h2>Art Portfolio</h2>
+        <div class="art-gallery">
+          <img src="https://scontent-hkg1-2.xx.fbcdn.net/v/t39.30808-6/484527105_1695216724539441_5617760356932877834_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEh6LWf9Z-hRU7oBQyPMJVEpRnFErbfuhqlGcUStt-6Gn0yAlFKqsb1xiKIevcq8oyOqnTHU_rzeEpWSGnC4Pgm&_nc_ohc=ED4FXk0CRp4Q7kNvgFfMjES&_nc_oc=Admzohu1vogDetd_mVmf-RZEiL1j6fv7o0d0G9wWjPB90Msb6mp_pP_EvOvFU_eFHxE1iHDCZ8FSepkxI7P_LPz4&_nc_zt=23&_nc_ht=scontent-hkg1-2.xx&_nc_gid=5Q7eGF41LmYeYlRvjAQbUg&oh=00_AYFTxhexfDv7HDEZ-nKy5V8SFVjlG8BLg3Dz_vqoWKRwGA&oe=67F1E174" alt="Art 1">
+          <img src="https://scontent-hkg4-1.xx.fbcdn.net/v/t39.30808-6/477076815_1668759510518496_2422473871292221702_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHP1n1-yhuKXIzkovuA7kp_5FWLWoH3ywHkVYtagffLAeaysTG-YcxybCpknE-pHuS9-uCIcgJeCuEE1W6h8m7g&_nc_ohc=iEwwkS069zQQ7kNvgFBvwrH&_nc_oc=AdmvebhPjMGfwRYFOJtXWwi6oBFyowOabbWd3zMx-Ak0GYFE0f12iit1HYIPXWS4y1SXczf2qhydN2hTp4_2zvHP&_nc_zt=23&_nc_ht=scontent-hkg4-1.xx&_nc_gid=Dd6S9KbZ-N0zi8pMCrvZvw&oh=00_AYFIsXyHI1c0tVmnbSgkveEKgTFcVyrN6a9ereXfLAuxfw&oe=67F20402" alt="Art 2">
+          <img src="https://scontent-hkg4-2.xx.fbcdn.net/v/t39.30808-6/472974163_1650016292392818_4298576057281047135_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEpq3g4oAxxwU4UG5bQsiERK35ZLZnK_JUrflktmcr8lfTSFmVv3RDGsgG-In5-ULffscCrwWT-8ipaI0rSgT69&_nc_ohc=7c4LvYBmbnEQ7kNvgH5q9SY&_nc_oc=Adn-Vv-AThFGIAXTHsU41P7tgdZ8BngsxA3cfWObMKc26VvhrI5sabw2ScjkkhEkrfHZOR0BCbDN0cbiqGdmzUIr&_nc_zt=23&_nc_ht=scontent-hkg4-2.xx&_nc_gid=oQ88YGK_YHZDf3y-e654Uw&oh=00_AYF3_b7ee_uMuycMjWC4xWe38CMpEr5jji1UDoI1tVg9FQ&oe=67F1D3BB" alt="Art 3">
+          <img src="https://scontent-hkg1-1.xx.fbcdn.net/v/t39.30808-6/473424584_1650021849058929_2568969718785012571_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeHCO5R04vwSiMb7J539iytaRLRoURZEM5dEtGhRFkQzlyZVzPMtdfdt89HD8aIBFfGlpa7xPimBHdw7G_GUSAQ_&_nc_ohc=7PX0csppAzoQ7kNvgFXGoXu&_nc_oc=AdmKYDEZBqkYsEO0jz-4ymziee0d6-N5HWM4VpsaYVGCiK51ChDupE9CHdjyyO_2EZDYvnnRBeCOIDX5bwQGvdYN&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&_nc_gid=by4S6IhPwtwwcinwkHJTQA&oh=00_AYGWIVxAgSqlbPhzgj5NdCiha_GD3nfeX4CBc5bmqdbeuw&oe=67F1D117" alt="Art 4">
+          <img src="https://scontent-hkg1-2.xx.fbcdn.net/v/t39.30808-6/487315352_1703622760365504_8923528154256233856_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFFAcxX3bZQ4bm0GMmlZW_D61tnr2frtZrrW2evZ-u1mto9FmiMgCrlZKG6HVFWj-bqCJmYsIh5iGVGEIOBA80I&_nc_ohc=W9SO69g2SbsQ7kNvgF5bRMl&_nc_oc=AdmXzak7hkMKw4Fw-CKM49EcX6UO39pbXanjPDC_E6RyTrCvmvhT47sDF-qRvQMFeRb1E2dJzTWpJqCbIgw7-Xu2&_nc_zt=23&_nc_ht=scontent-hkg1-2.xx&_nc_gid=NVA77MPQWsjNfe4IgWIgEA&oh=00_AYEXVn2-VcBiKgVOl3iVL2FTuzetEVGKKq6YcrAV-MxUJA&oe=67F1F1D8" alt="Art 5">
+          <img src="https://scontent-hkg1-1.xx.fbcdn.net/v/t39.30808-6/473093741_1650015159059598_7708995959659240091_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeE--wuZpa-YJUsKLYaj6ALqdXHCXGNSKnZ1ccJcY1Iqds37uJLFc2rBUaj7ocQH4IdrpC5IMRHWkUdateAgWM8B&_nc_ohc=Ac4AG00zun4Q7kNvgHtsdsL&_nc_oc=AdnBV4Cp4iJ5IeJkYWQxcQ7BrJQSXQaPssCDpMIa7HIzFBQlXoVTPxUeQv9Dc2jrPT9yLXiLzKj7aob28kOrkxw4&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&_nc_gid=rheMln2AjogWVKb01j2f0Q&oh=00_AYEPtjT80GRasTTrzaacFTu6ztKTd2lbi26rw-U0I5pivQ&oe=67F20784" alt="Art 6">
+          <img src="https://scontent-hkg1-2.xx.fbcdn.net/v/t39.30808-6/473089274_1650016669059447_866896696132052032_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHBhhamHUn7tSmRPEbtgytGvKoHSm0fADq8qgdKbR8AOrKP-jWt1YcU5nH_NxfJ_bOTbbdhCacyd_6Wc-TKH5vO&_nc_ohc=OwfgXgFVTtgQ7kNvgExlOp7&_nc_oc=AdlYbxfS_fWKb6f--HOZDQOClsdJcZ-DNldrEgj25br36VZkHkDwlWZqDQBignC8_kd-MtyWyddeXGIGhXn-Aees&_nc_zt=23&_nc_ht=scontent-hkg1-2.xx&_nc_gid=MxxssJhQQqOSh8cai1889Q&oh=00_AYEeOFg7dBimhAEkVn5YZTthihOTnXGIRtIStH-9ruScaQ&oe=67F1E4CB" alt="Art 8">
+          <img src="https://scontent-hkg1-1.xx.fbcdn.net/v/t39.30808-6/473180543_1650016515726129_7083639171257812166_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGmkntgoCe3yxJsCQsxEObSfTJk-kHz-D19MmT6QfP4PZx3Q3YMTmy8r3XQbnKZaE9QKcNoHWXvIsszzc6fWNqO&_nc_ohc=vWc-Clq-eUAQ7kNvgGXqoVu&_nc_oc=AdmP8vqPdQS8OlYxOivrdaSVBJtxTuShg2oGWn4Vy6jthPQyZP1a32A5hYYYVOZY92hKIyvf3GwPmWdExUyp9FBD&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&_nc_gid=mRuujZnE_P5WDxi-ldaUzQ&oh=00_AYFZx47fOAwVJJ9j362Hc3DD5bsydBRQHlh0jZtmxBlTDA&oe=67F1F2DB" alt="Art 9">
+          <img src="https://scontent-hkg1-2.xx.fbcdn.net/v/t39.30808-6/473092655_1650412995686481_887742904737894435_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeGI54Qngm6kIaYDzmwssgO49PLh4gAupH308uHiAC6kfZ9KKj-Itl4s6lcuRjqVxPgFFKnf910V39vC_y4lSSNn&_nc_ohc=8RD5RUb4OGsQ7kNvgGSDh74&_nc_oc=AdnJpuaFuTGBefDBWl5t27AGBpUdw_9LNVvS6dhzHbBOf3R_jrG98LwaFfNfNW44HAGPE1CEEdGNh_rJH87cTbSF&_nc_zt=23&_nc_ht=scontent-hkg1-2.xx&_nc_gid=JbvxAdbc3GbtssdhCjX21A&oh=00_AYHtFEf_vcCqdtu8IDgMA_drGUmaFFj3FPcncxWn2py6OA&oe=67F1E505" alt="Art 10">
+        </div>
+      </div>
+
+      <div id="voice" class="panel">
+        <h2>Voice Portfolio</h2>
+        <div class="voice-samples">
+          <div class="voice-sample">
+            <h3>Sample 1</h3>
+            <audio controls>
+              <source src="https://archive.org/details/recording-4_202504/Recording+(3).mp3" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+          <div class="voice-sample">
+            <h3>Sample 2</h3>
+            <audio controls>
+              <source src="https://archive.org/details/recording-4_202504/Recording.mp3" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+          <div class="voice-sample">
+            <h3>Sample 3</h3>
+            <audio controls>
+              <source src="https://archive.org/details/recording-5_202504/Recording+(5).mp3" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPanel(panelId) {
+      document.querySelectorAll('.panel').forEach(panel => panel.style.display = 'none');
+      document.getElementById(panelId).style.display = 'block';
+    }
+
+    let currentlyExpanded = null;
+    document.querySelectorAll('.art-gallery img').forEach(img => {
+      img.addEventListener('click', function() {
+        if (currentlyExpanded && currentlyExpanded !== this) {
+          currentlyExpanded.classList.remove('expanded');
+        }
+        this.classList.toggle('expanded');
+        currentlyExpanded = this.classList.contains('expanded') ? this : null;
+      });
+    });
+  </script>
+</body>
+
+</html>
