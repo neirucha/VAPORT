@@ -16,7 +16,6 @@
     .parallax-wrapper {
       height: 100vh;
       overflow-x: hidden;
-      overflow-y: auto;
       perspective: 2px;
       position: relative;
     }
@@ -26,13 +25,12 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 150%;
+      height: 100vh;
       background: url('https://images.pexels.com/photos/19228676/pexels-photo-19228676/free-photo-of-fog-over-skyscrapers-with-illuminated-windows.jpeg') no-repeat center center;
       background-size: cover;
       transform: translateZ(-1px) scale(1.5);
       z-index: -1;
       animation: wave 20s infinite ease-in-out;
-      /* Slow waving effect */
     }
 
     #profile {
@@ -104,15 +102,21 @@
     }
 
     .art-gallery img {
-      width: 200px;
+      width: 100%;
+      max-width: 200px;
       height: auto;
       object-fit: contain;
       transition: all 0.3s ease;
       cursor: pointer;
+      outline: none;
     }
 
     .art-gallery img:hover {
       transform: scale(1.05);
+    }
+
+    .art-gallery img:focus {
+      box-shadow: 0 0 5px #fff;
     }
 
     .art-gallery img.expanded {
@@ -160,6 +164,22 @@
 
     #social-links img:hover {
       transform: rotate(360deg);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      #profile,
+      nav,
+      .panel {
+        max-width: 100%;
+        margin: 10px;
+        padding: 10px;
+      }
+
+      button {
+        font-size: 16px;
+        padding: 8px 16px;
+      }
     }
 
     /* Animations */
@@ -237,8 +257,8 @@
     </div>
 
     <nav>
-      <button onclick="showPanel('art')">Artworks</button>
-      <button onclick="showPanel('voice')">Voicework</button>
+      <button role="button" aria-label="Show Artworks" onclick="showPanel('art')">Artworks</button>
+      <button role="button" aria-label="Show Voicework" onclick="showPanel('voice')">Voicework</button>
     </nav>
 
     <div id="panels">
@@ -263,22 +283,22 @@
         <div class="voice-samples">
           <div class="voice-sample">
             <h3>Ramiel</h3>
-            <audio controls preload="auto" onError="console.log('Ramiel audio failed to load')">
-              <source src="https://archive.org/details/end_20250401/Ramiel.mp3" type="audio/mpeg">
+            <audio controls preload="auto" onerror="console.log('Ramiel audio failed to load')">
+              <source src="https://ia902900.us.archive.org/3/items/end_20250401/Ramiel.mp3" type="audio/mp3">
               Your browser does not support the audio element.
             </audio>
           </div>
           <div class="voice-sample">
             <h3>End</h3>
-            <audio controls preload="auto" onError="console.log('End audio failed to load')">
-              <source src="https://archive.org/details/end_20250401/End.mp3" type="audio/mpeg">
+            <audio controls preload="auto" onerror="console.log('End audio failed to load')">
+              <source src="https://ia902900.us.archive.org/3/items/end_20250401/End.mp3" type="audio/mp3">
               Your browser does not support the audio element.
             </audio>
           </div>
           <div class="voice-sample">
             <h3>Flashbang</h3>
-            <audio controls preload="auto" onError="console.log('Flashbang audio failed to load')">
-              <source src="https://archive.org/details/end_20250401/Flashbang.mp3" type="audio/mpeg">
+            <audio controls preload="auto" onerror="console.log('Flashbang audio failed to load')">
+              <source src="https://ia902900.us.archive.org/3/items/end_20250401/Flashbang.mp3" type="audio/mp3">
               Your browser does not support the audio element.
             </audio>
           </div>
@@ -288,6 +308,10 @@
   </div>
 
   <script>
+    const backdrop = document.createElement('div');
+    backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 999; display: none;';
+    document.body.appendChild(backdrop);
+
     function showPanel(panelId) {
       document.querySelectorAll('.panel').forEach(panel => panel.style.display = 'none');
       document.getElementById(panelId).style.display = 'block';
@@ -295,13 +319,32 @@
 
     let currentlyExpanded = null;
     document.querySelectorAll('.art-gallery img').forEach(img => {
-      img.addEventListener('click', function() {
-        if (currentlyExpanded && currentlyExpanded !== this) {
-          currentlyExpanded.classList.remove('expanded');
+      img.setAttribute('tabindex', '0');
+      img.addEventListener('click', toggleExpand);
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleExpand.call(img);
         }
-        this.classList.toggle('expanded');
-        currentlyExpanded = this.classList.contains('expanded') ? this : null;
       });
+    });
+
+    function toggleExpand() {
+      if (currentlyExpanded && currentlyExpanded !== this) {
+        currentlyExpanded.classList.remove('expanded');
+        backdrop.style.display = 'none';
+      }
+      this.classList.toggle('expanded');
+      backdrop.style.display = this.classList.contains('expanded') ? 'block' : 'none';
+      currentlyExpanded = this.classList.contains('expanded') ? this : null;
+    }
+
+    backdrop.addEventListener('click', () => {
+      if (currentlyExpanded) {
+        currentlyExpanded.classList.remove('expanded');
+        backdrop.style.display = 'none';
+        currentlyExpanded = null;
+      }
     });
   </script>
 </body>
